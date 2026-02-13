@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Valentine ❤️</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#ff5f7e,#ffc3d4);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+overflow:hidden;
+}
+
+.phone{
+width:360px;
+height:640px;
+background:rgba(255,255,255,.12);
+border-radius:35px;
+box-shadow:0 20px 40px rgba(0,0,0,.4);
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+padding:20px;
+backdrop-filter:blur(6px);
+}
+
+h1{
+font-size:1.9em;
+text-align:center;
+margin-top:40px;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+font-size:1.1em;
+background:white;
+color:#ff4d6d;
+cursor:pointer;
+transition:.3s;
+margin:6px 0;
+}
+
+button:hover{transform:scale(1.05);}
+#msg{text-align:center}
+
+/* final collage */
+.yesScreen{
+width:360px;
+height:640px;
+background:linear-gradient(180deg,#ff1e56,#ff9aa2);
+border-radius:35px;
+padding:15px;
+display:flex;
+flex-direction:column;
+align-items:center;
+overflow:auto;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:10px;
+}
+
+.gallery img{
+width:100%;
+border-radius:15px;
+animation:fade .7s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:scale(.9)}
+to{opacity:1;transform:scale(1)}
+}
+
+/* confetti */
+.confetti{
+position:absolute;
+width:10px;
+height:10px;
+animation:fall 2s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(100vh) rotate(360deg);opacity:0}
+}
+
+.final{
+width:360px;
+height:640px;
+background:linear-gradient(180deg,#ff1e56,#ff9aa2);
+border-radius:35px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:25px;
+}
+
+.final button{width:220px;font-size:1.3em}
+#noBtn{position:absolute}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="obsessed.mp3" type="audio/mpeg">
+</audio>
+
+<div class="phone" id="app">
+<h1 id="question">Ready for a cute quiz? 💕</h1>
+<div id="options"></div>
+<p id="msg"></p>
+<button id="startBtn" onclick="start()">Start 💖</button>
+</div>
+
+<script>
+let q=0;
+
+const quiz=[
+{q:"When did we first meet? 💫",options:["11th Jan 2024","5th Feb 2024","20th Jan 2024","1st Jan 2024"],answer:0},
+{q:"Who is my favorite rap artist? 🎤",options:["Drake","Central Cee","Travis Scott","Eminem"],answer:1},
+{q:"What is my favorite color? 🎨",options:["Red","Black","Navy Blue","White"],answer:2},
+{q:"Who makes me the happiest? 😍",options:["Adiba","Central Cee","My friends","My family"],answer:1},
+{q:"When was our first kiss? 💋",options:["14th Feb","23rd Jan","1st Jan","10th Feb"],answer:1}
+];
+
+function start(){
+startBtn.style.display="none";
+load();
+}
+
+function load(){
+msg.innerHTML="";
+question.innerHTML=quiz[q].q;
+let html="";
+quiz[q].options.forEach((o,i)=>{
+html+=`<button onclick="check(${i})">${o}</button>`;
+});
+options.innerHTML=html;
+}
+
+function check(i){
+if(i===quiz[q].answer){
+q++;
+if(q<quiz.length) load();
+else finalScreen();
+}else msg.innerHTML="Try again 😝";
+}
+
+function finalScreen(){
+document.body.innerHTML=`
+<div class="final">
+<h1>Will you be my Valentine? 💘</h1>
+<button onclick="yes()">YES ❤️</button>
+<button id="noBtn" onmouseover="moveNo()">No 🙈</button>
+</div>`;
+}
+
+function moveNo(){
+noBtn.style.left=Math.random()*70+"vw";
+noBtn.style.top=Math.random()*70+"vh";
+}
+
+function confetti(){
+for(let i=0;i<120;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"vw";
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+c.style.animationDuration=1+Math.random()*2+"s";
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),3000);
+}
+}
+
+function yes(){
+confetti();
+document.body.innerHTML=`
+<div class="yesScreen">
+<h1>YAY!!! I LOVE YOU 💖🥰</h1>
+<div class="gallery">
+<img src="pic1.png">
+<img src="pic2.jpeg">
+<img src="pic3.jpeg">
+<img src="pic4.jpeg">
+<img src="pic5.jpeg">
+</div>
+</div>`;
+}
+</script>
+
+</body>
+</html>
